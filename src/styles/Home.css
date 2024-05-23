@@ -1,0 +1,28 @@
+:root {
+  --primary-color: rgb(152, 204, 226);
+}
+
+div.home {
+  background-color: var(--primary-color);
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  /* color: white; */
+}
+
+div.home button {
+  background-color: blue;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  margin-top: 2rem;
+  border: none;
+}
+
+body {
+  max-width: min(55rem, 100%);
+  margin: auto;
+}

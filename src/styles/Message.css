@@ -1,0 +1,9 @@
+section#message {
+  padding: 1rem;
+}
+section#message div {
+  background-color: rgb(196, 237, 255);
+  padding: 1rem;
+  min-height: min(16rem, 30dvh);
+  font-size: 1.2rem;
+}
