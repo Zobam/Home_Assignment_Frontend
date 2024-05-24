@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { getMessages } from "../hooks/getMessages";
+import { getResource } from "../hooks/getResource";
 import { addMessages, signOut } from "../state/actions";
 import "../styles/TopNav.css";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function TopNav(props) {
   const navigate = useNavigate();
@@ -12,13 +12,13 @@ function TopNav(props) {
     props.addMessages({ messages });
   };
   //   get unread messages count
-  const unreadMessagesCount = props.state.messages.filter(
+  const unreadMessagesCount = props.state.messages?.filter(
     (message) => !message.isRead
   ).length;
   useEffect(() => {
     // make api call to fetch messages
     async function fetchMessages() {
-      const messages = await getMessages();
+      const messages = await getResource(props.state.user, "messages");
       handleAddMessages(messages);
     }
     fetchMessages();
@@ -26,7 +26,7 @@ function TopNav(props) {
   const signOut = (e) => {
     e.preventDefault();
     props.signOut({});
-    navigate("/sign-in");
+    navigate("/user");
   };
   return (
     <nav>
@@ -34,7 +34,7 @@ function TopNav(props) {
         <p>
           {props.state.user && (
             <>
-              {props.state.user.name} |{" "}
+              {props.state.user.userName} |{" "}
               <span className={!unreadMessagesCount ? "read" : "unread"}>
                 {unreadMessagesCount} unread messages
               </span>
@@ -50,12 +50,15 @@ function TopNav(props) {
           <Link to="/inbox">Inbox</Link>
         </li>
         <li>
+          <Link to="/create">Create+</Link>
+        </li>
+        <li>
           {props.state.user ? (
             <a href="#out" onClick={signOut}>
               Sign out
             </a>
           ) : (
-            <Link to="/sign-in">Sign in</Link>
+            <Link to="/user">Sign in</Link>
           )}
         </li>
       </ul>

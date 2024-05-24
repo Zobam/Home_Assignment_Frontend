@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import TopNav from "./components/TopNav";
 import SignIn from "./pages/SingIn";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Create from "./pages/Create";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -35,8 +36,16 @@ root.render(
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute>
+                <Create />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/messages/:messageIndex" element={<Message />} />
-          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/user" element={<SignIn />} />
         </Routes>
       </Provider>
     </BrowserRouter>

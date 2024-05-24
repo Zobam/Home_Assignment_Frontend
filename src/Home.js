@@ -11,7 +11,7 @@ function Home(props) {
   ).length;
   return (
     <div className="home">
-      <h2>Hello {props.user.name}</h2>
+      <h2>Hello {props.user.userName}</h2>
       <h3>
         You have {unreadMessagesCount} unread message out of{" "}
         {props.messages.length} total

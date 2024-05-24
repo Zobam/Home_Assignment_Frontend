@@ -8,7 +8,19 @@ function markAsRead(payload) {
 }
 function addMessages(payload) {
   return {
-    type: actionTypes.ADD_NOTES,
+    type: actionTypes.ADD_MESSAGES,
+    payload,
+  };
+}
+function signUp(payload) {
+  return {
+    type: actionTypes.SIGN_IN,
+    payload,
+  };
+}
+function signIn(payload) {
+  return {
+    type: actionTypes.SIGN_IN,
     payload,
   };
 }
@@ -18,4 +30,4 @@ function signOut(payload) {
     payload,
   };
 }
-export { markAsRead, addMessages, signOut };
+export { markAsRead, addMessages, signOut, signIn, signUp };

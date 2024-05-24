@@ -18,9 +18,13 @@ function reducer(state = initialState, action) {
       });
       console.log(newState);
       return newState;
-    case actions.ADD_NOTES:
+    case actions.ADD_MESSAGES:
       newState = { ...state };
       newState.messages = action.payload.messages;
+      return newState;
+    case actions.SIGN_IN:
+      newState = { ...state };
+      newState.user = action.payload;
       return newState;
     case actions.SIGN_OUT:
       newState = { ...state };
