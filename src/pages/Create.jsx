@@ -3,20 +3,39 @@ import { connect } from "react-redux";
 import { getResource } from "../hooks/getResource";
 import axios from "axios";
 import { addMessages } from "../state/actions";
+import "../styles/Create.css";
+import { useNavigate } from "react-router-dom";
 
 function Create({ user, apiURL, addMessages }) {
   const [messageData, setMessageData] = useState({ senderID: user.id });
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const navigate = useNavigate();
   //   add field to user object
   const addField = (e) => {
     const filedName = e.target.name;
     setMessageData((value) => {
       const newVal = { ...value, [`${filedName}`]: e.target.value };
+      setHasError(false);
       return newVal;
     });
   };
   const sendMessage = async () => {
+    // basic form validation
+    if (Object.keys(messageData).length === 1) {
+      setHasError(true);
+    } else {
+      for (const field in messageData) {
+        if (messageData[field].length < 3) {
+          setHasError(true);
+          break;
+        }
+      }
+    }
+
+    if (hasError) return;
+
     setLoading(true);
     const config = {
       headers: { Authorization: `Bearer ${user.accessToken}` },
@@ -28,11 +47,10 @@ function Create({ user, apiURL, addMessages }) {
         config
       );
       if (data.status === "success") {
-        // addMessages([{}])
-        console.log("message sent.", data.data);
+        addMessages({ messages: [data.data] });
+        navigate("/inbox");
       }
     } catch (error) {
-      console.log("user token: ", user.accessToken);
       console.log("message creation error", error);
     } finally {
       setLoading(false);
@@ -46,7 +64,7 @@ function Create({ user, apiURL, addMessages }) {
     fetchUsers();
   }, []);
   return (
-    <>
+    <section id="create">
       <h1 className="text-center my-4 font-bold text-2xl">Send a Message</h1>
       <section className="px-4">
         <div className="">
@@ -82,6 +100,11 @@ function Create({ user, apiURL, addMessages }) {
             ))}
           </select>
         </div>
+        {hasError && (
+          <div className="text-red-600 text-xs">
+            provide value for all the fields
+          </div>
+        )}
         <div className="text-center">
           <button
             className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-900"
@@ -95,7 +118,7 @@ function Create({ user, apiURL, addMessages }) {
           </button>
         </div>
       </section>
-    </>
+    </section>
   );
 }
 function mapStateToProps(state) {

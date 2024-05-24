@@ -8,7 +8,6 @@ export async function getResource(user, link) {
   };
   try {
     const { data } = await axios.get(`${link}`, config);
-    console.log(data);
     if (data.status === "success") {
       return data.data;
     }

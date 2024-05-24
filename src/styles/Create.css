@@ -1,0 +1,4 @@
+section#create input,
+textarea {
+    width: max(90%, 16rem);
+}

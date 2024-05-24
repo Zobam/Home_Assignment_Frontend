@@ -28,7 +28,6 @@ function SignIn({ signIn, signUp, addMessages, state }) {
     let apiLink = `${state.apiURL}/sign-${linkPostfix}`;
     try {
       const { data } = await axios.post(apiLink, user);
-      console.log(data);
       if (data.status === "success") {
         if (isSignUp) {
           setIsSignUp(false);
@@ -71,10 +70,11 @@ function SignIn({ signIn, signUp, addMessages, state }) {
         <div className="">
           <label htmlFor="email">Email:</label>
           <input
-            type="text"
+            type="email"
             name="email"
             className="block border-2 mb-4 rounded-lg shadow-sm p-1"
             onChange={addField}
+            required
           />
         </div>
         <div className="">

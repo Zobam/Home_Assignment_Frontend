@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import "../styles/Message.css";
 import { updateMessage } from "../hooks/updateMessage";
 
-function Message({ user, messages, apiURL }) {
+function Message({ user, messages, markAsRead, apiURL }) {
   const messageIndex = useParams().messageIndex - 1;
   // navigate to inbox if messages are not yet loaded into state
   if (!messages.length) {
@@ -14,6 +14,7 @@ function Message({ user, messages, apiURL }) {
   const message = messages[messageIndex];
   useEffect(() => {
     if (!message.isRead) {
+      console.log("about to mark message as read");
       markAsRead({ messageIndex });
       updateMessage(user, `${apiURL}/messages/${message._id}`);
     }
