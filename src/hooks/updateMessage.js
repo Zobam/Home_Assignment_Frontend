@@ -1,15 +1,18 @@
 import axios from "axios";
 
-export async function updateMessage(messageID) {
+export async function updateMessage(user, link) {
+  const config = {
+    headers: { Authorization: `Bearer ${user.accessToken}` },
+  };
   try {
-    const { data } = await axios.put(
-      `http://localhost:3200/messages/${messageID}`
-    );
+    console.log("this is link: ", link);
+    console.log(config);
+    const { data } = await axios.put(`${link}`, {}, config);
     // console.log(data);
     if (data.status === "success") {
       console.log(data);
     }
   } catch (error) {
-    console.log("an error occurred fetching messages from server.", error);
+    console.log("an error occurred updating messages from server.", error);
   }
 }

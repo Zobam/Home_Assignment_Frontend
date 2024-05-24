@@ -8,6 +8,9 @@ import { getResource } from "../hooks/getResource";
 function SignIn({ signIn, signUp, addMessages, state }) {
   const [isSignUp, setIsSignUp] = useState(false);
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
   const navigate = useNavigate();
   //   add field to user object
   const addField = (e) => {
@@ -19,6 +22,7 @@ function SignIn({ signIn, signUp, addMessages, state }) {
   };
   //   signInSignUp
   const signInSignUp = async () => {
+    setLoading(true);
     const linkPostfix = isSignUp ? "up" : "in";
 
     let apiLink = `${state.apiURL}/sign-${linkPostfix}`;
@@ -41,7 +45,10 @@ function SignIn({ signIn, signUp, addMessages, state }) {
         }
       }
     } catch (error) {
-      console.log("error signing " + linkPostfix);
+      console.log("error signing " + linkPostfix, error);
+      setHasError(true);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -79,6 +86,11 @@ function SignIn({ signIn, signUp, addMessages, state }) {
             onChange={addField}
           />
         </div>
+        {hasError && (
+          <div className="text-red-500 text-xs">
+            incorrect credentials. check and try again
+          </div>
+        )}
         {!isSignUp ? (
           <div>
             Don't have an account?{" "}
@@ -105,7 +117,13 @@ function SignIn({ signIn, signUp, addMessages, state }) {
             className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-900"
             onClick={signInSignUp}
           >
-            {isSignUp ? "Sign up" : "Sign in"}
+            {loading ? (
+              <span className="animate-ping inline-block text-2xl">. . . </span>
+            ) : isSignUp ? (
+              "Sign up"
+            ) : (
+              "Sign in"
+            )}
           </button>
         </div>
       </section>

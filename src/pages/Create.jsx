@@ -7,6 +7,7 @@ import { addMessages } from "../state/actions";
 function Create({ user, apiURL, addMessages }) {
   const [messageData, setMessageData] = useState({ senderID: user.id });
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
   //   add field to user object
   const addField = (e) => {
     const filedName = e.target.name;
@@ -16,6 +17,7 @@ function Create({ user, apiURL, addMessages }) {
     });
   };
   const sendMessage = async () => {
+    setLoading(true);
     const config = {
       headers: { Authorization: `Bearer ${user.accessToken}` },
     };
@@ -32,6 +34,8 @@ function Create({ user, apiURL, addMessages }) {
     } catch (error) {
       console.log("user token: ", user.accessToken);
       console.log("message creation error", error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -83,7 +87,11 @@ function Create({ user, apiURL, addMessages }) {
             className="bg-blue-600 text-white px-4 py-2 hover:bg-blue-900"
             onClick={sendMessage}
           >
-            Send Message
+            {loading ? (
+              <span className="animate-ping inline-block text-2xl">. . . </span>
+            ) : (
+              "Send Message"
+            )}
           </button>
         </div>
       </section>

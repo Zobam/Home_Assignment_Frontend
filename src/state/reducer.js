@@ -1,5 +1,4 @@
 // import { getMessages } from "../hooks/getMessages";
-import { updateMessage } from "../hooks/updateMessage";
 import * as actions from "./actionTypes";
 import { initialState } from "./actionTypes";
 
@@ -11,7 +10,6 @@ function reducer(state = initialState, action) {
       newState.messages.map((message, index) => {
         if (index === action.payload.messageIndex) {
           message.isRead = true;
-          updateMessage(message._id);
           return message;
         }
         return message;
